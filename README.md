@@ -53,3 +53,48 @@
 ```
 python run.py
 ```
+
+#### Flask para desenvolvimento web
+
+Para usarmos flask no contexto de web, devemos fazer com que nossas views renderizem algo que os navegadores entendam. Em outras palavras vamos utilizar html.
+
+1. Criar o diretório templates
+    ```
+    mkdir templates
+    ```
+2. Criar um arquivo base
+    ```html
+   <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Practice</title>
+    </head>
+    <body>
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+    </html>
+    ```
+3. Criar um arquivo qualquer que herde de base.html
+    ```html
+    {% extends 'base.html' %}
+    {% block content %}
+        <h1>{{ title }}</h1>
+        <p>{{ paragraph }}</p>
+    {% endblock %}
+    ```
+4. Renderizar a página através das views
+    ```python
+    @app.route('/')
+    def index():
+        title = "Olá Mundo"
+        paragraph = "Este é o primeiro teste sem preconceito com flask"
+        return render_template('home.html', title=title, paragraph=paragraph)
+    ```
+5. Executar o script `run.py`
+    ```
+   python run.py
+   ```
