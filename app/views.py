@@ -18,3 +18,12 @@ def list_users():
     data = cur.fetchall()
     cur.close()
     return render_template('list.html', users=data)
+
+
+@app.route('/users/<int:pk>')
+def detail_user(pk):
+    cur = get_db().cursor()
+    cur.execute(f"SELECT * FROM users WHERE id={pk}")
+    data = cur.fetchone()
+    cur.close()
+    return render_template('detail.html', user=data)
