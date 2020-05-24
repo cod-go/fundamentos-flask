@@ -166,3 +166,9 @@ podemos facilmente fazer a conexão criando um arquivo para isso.
 
 #### Integrando BD com a interface web
 Agora com a conexão pronta, podemos criar páginas web que criem, leiam, atualizem e deletem entidades (o famoso CRUD).
+
+#### Links úteis
+- [Renderização de template](https://flask.palletsprojects.com/en/1.1.x/api/#template-rendering)
+- [Flask Quickstart](https://flask.palletsprojects.com/en/1.1.x/quickstart/)
+- [Flask redirect](https://flask.palletsprojects.com/en/1.1.x/api/#flask.redirect)
+- [Flask url_for](https://flask.palletsprojects.com/en/1.1.x/api/#flask.url_for)
