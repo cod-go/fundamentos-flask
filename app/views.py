@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request, url_for, redirect
 
 from app import app
 from app.database.connection import get_db
@@ -27,3 +27,14 @@ def detail_user(pk):
     data = cur.fetchone()
     cur.close()
     return render_template('detail.html', user=data)
+
+
+@app.route('/users/new', methods=['GET', 'POST'])
+def create_user():
+    if request.method == 'POST':
+        cur = get_db().cursor()
+        cur.execute(f"INSERT INTO users(name) VALUES('{request.form['name']}')")
+        get_db().commit()
+        cur.close()
+        return redirect(url_for('list_users'))
+    return render_template('form.html')
