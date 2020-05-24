@@ -38,3 +38,16 @@ def create_user():
         cur.close()
         return redirect(url_for('list_users'))
     return render_template('form.html')
+
+
+@app.route('/users/<int:pk>/edit', methods=['GET', 'POST'])
+def update_user(pk):
+    cur = get_db().cursor()
+    if request.method == "POST":
+        cur.execute(f"UPDATE users SET name='{request.form['name']}' WHERE id={pk}")
+        get_db().commit()
+        cur.close()
+        return redirect(url_for('list_users'))
+    cur.execute(f"SELECT name FROM users WHERE id = {pk}")
+    name = cur.fetchone()['name']
+    return render_template('form.html', name=name, pk=pk)

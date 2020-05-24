@@ -3,7 +3,7 @@
 {% block content %}
     <ul>
     {% for user in users %}
-        <li>{{ user.id }} - {{ user.name }}</li>
+        <li><a href="{{ url_for('update_user', pk=user.id) }}"> {{ user.id }} - {{ user.name }}</a></li>
     {% endfor %}
     </ul>
 {% endblock %}
