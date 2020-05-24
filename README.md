@@ -163,3 +163,6 @@ podemos facilmente fazer a conexão criando um arquivo para isso.
    from app.database.connection import init_db
    init_db()
     ```
+
+#### Integrando BD com a interface web
+Agora com a conexão pronta, podemos criar páginas web que criem, leiam, atualizem e deletem entidades (o famoso CRUD).
