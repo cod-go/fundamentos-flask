@@ -98,3 +98,68 @@ Para usarmos flask no contexto de web, devemos fazer com que nossas views render
     ```
    python run.py
    ```
+
+#### Usando banco de dados
+Existem diversas maneiras de se conectar a um banco de dados usando flask, mas hoje vamos abordar a conexão com sqlite3.
+Seguindo a documentação, que você pode ler [aqui](https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/),
+podemos facilmente fazer a conexão criando um arquivo para isso.
+
+1. Criar um diretório database dentro do diretório app
+    ```
+    mkdir database
+    ```
+2. Criar arquivo `base.sql` para gerar o banco
+    ```sql
+    CREATE TABLE users(
+        id integer,
+        name varchar(80),
+        constraint user_pk primary key(id)
+    )
+    ```
+3. Criar um arquivo `connection.py`
+    ```python
+    import sqlite3
+    from flask import g
+    from app import app
+    
+    DATABASE = '/app/database/database.db'
+    
+    def get_db():
+        db = getattr(g, '_database', None)
+        if db is None:
+            db = g._database = sqlite3.connect(DATABASE)
+        return db
+    
+    @app.teardown_appcontext
+    def close_connection(exception):
+        db = getattr(g, '_database', None)
+        if db is not None:
+            db.close()
+
+    ```
+    2.1. Para facilitar as consultas no futuro, é possível faze-las retornar dicionários adicionando o seguinte techo de código ao método get_db() antes do return
+    ```python
+    def make_dicts(cursor, row):
+        return dict((cursor.description[idx][0], value)
+                    for idx, value in enumerate(row))
+    
+    db.row_factory = make_dicts
+    ```
+4. Adicionar função para iniciar o banco de dados
+    ```python
+    def init_db():
+        with app.app_context():
+            db = get_db()
+            with app.open_resource('./database/base.sql', mode='r') as f:
+                db.cursor().executescript(f.read())
+            db.commit()
+    
+    ```
+5. Executar o python shell
+    ```
+   python3
+   ```
+   ```python
+   from app.database.connection import init_db
+   init_db()
+    ```
