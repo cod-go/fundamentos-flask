@@ -50,4 +50,13 @@ def update_user(pk):
         return redirect(url_for('list_users'))
     cur.execute(f"SELECT name FROM users WHERE id = {pk}")
     name = cur.fetchone()['name']
-    return render_template('form.html', name=name, pk=pk)
+    return render_template('form.html', name=name, pk=pk, delete=True)
+
+
+@app.route('/user/<int:pk>/delete', methods=['GET'])
+def delete_user(pk):
+    cur = get_db().cursor()
+    cur.execute(f"DELETE FROM users WHERE id={pk}")
+    get_db().commit()
+    cur.close()
+    return redirect(url_for('list_users'))
