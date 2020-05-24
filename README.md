@@ -172,3 +172,35 @@ Agora com a conexão pronta, podemos criar páginas web que criem, leiam, atuali
 - [Flask Quickstart](https://flask.palletsprojects.com/en/1.1.x/quickstart/)
 - [Flask redirect](https://flask.palletsprojects.com/en/1.1.x/api/#flask.redirect)
 - [Flask url_for](https://flask.palletsprojects.com/en/1.1.x/api/#flask.url_for)
+
+#### Configurando arquivos estáticos
+Até agora estamos trabalhando com html plano, o que não é muito agradável à vista, portanto vamos configurar os arquivos estáticos
+
+1. Criar diretório static dentro do diretório app
+    ```
+    mkdir static
+    ```
+2. Criar arquivo `styles.css`
+    ```css
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    
+    body{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Roboto', sans-serif;
+    }
+    ```
+3. Adicionar referência ao estilo no `base.html`
+    ```html
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    ```
+4. Recarregar a página (limpando o cache)
+
+Para outros arquivos estáticos como imagens ou código javascript se utiliza `{{ url_for('static', filename='nome_do_arquivo.extensão') }}` nos respectivos elementos html.
